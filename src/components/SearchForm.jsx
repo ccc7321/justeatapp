@@ -5,22 +5,23 @@ function SearchForm() {
     console.log(e.target.value);
   };
 
-  const handleButtonClick = () => {
-    console.log(postCode);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(e.target.elements);
+    const searchValue = e.target.elements.search.value;
+    if (!searchValue) return;
+    console.log(searchValue);
   };
   return (
     <section>
-      <form>
-        <h2>Input Postcode</h2>
-        <input
-          type="text"
-          name="searchForm"
-          onChange={handleFormChange}
-        ></input>
+      <h2>Input Postcode</h2>
+      <form className="serach-form" onSubmit={handleSubmit}>
+        <input type="text" name="search" placeholder="NW9 4GD" />
+
+        <button type="submit" className="btn">
+          Search
+        </button>
       </form>
-      <button className="btn" onClick={handleButtonClick}>
-        Search
-      </button>
     </section>
   );
 }
