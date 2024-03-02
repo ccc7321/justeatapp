@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../Context';
 import Review from './Review';
 import Pagination from './Pagination';
+import styled from 'styled-components';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
@@ -62,12 +63,12 @@ function Display() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <main className="restaurants">
-      <section>
+    <Wrapper className="restaurants">
+      <section className="row justify-content-center">
         {results.map((restaurant) => {
           const { id, name, address, rating, cuisines } = restaurant;
           return (
-            <section key={id} className="single-restaurant">
+            <section key={id} className="single-restaurant col-3">
               <section className="restaurants-rating">
                 <Review stars={rating.starRating} reviews={rating.count} />
               </section>
@@ -92,7 +93,13 @@ function Display() {
         totalRestaurants={12}
         paginate={paginate}
       />
-    </main>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.main`
+  main {
+    background-color: rgb(238, 237, 234);
+  }
+`;
 export default Display;

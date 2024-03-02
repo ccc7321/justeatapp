@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 function Pagination({ restaurantsPerPage, totalRestaurants, paginate }) {
   const pageNumbers = [];
 
@@ -5,26 +7,33 @@ function Pagination({ restaurantsPerPage, totalRestaurants, paginate }) {
     pageNumbers.push(i);
   }
   return (
-    <nav>
-      <ul className="pagination">
-        {pageNumbers.map((number) => {
-          return (
-            <li key={number} className="page-item">
-              <a
-                href="!#"
-                className="page-link"
-                onClick={() => {
-                  paginate(number);
-                }}
-              >
-                {number}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-      <h4>testing</h4>
-    </nav>
+    <Wrappers>
+      <nav>
+        <ul className="pagination">
+          {pageNumbers.map((number) => {
+            return (
+              <li key={number} className="page-item">
+                <a
+                  href="!#"
+                  className="page-link"
+                  onClick={() => {
+                    paginate(number);
+                  }}
+                >
+                  {number}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </Wrappers>
   );
 }
+
+const Wrappers = styled.nav`
+  .pagination {
+    justify-content: center;
+  }
+`;
 export default Pagination;

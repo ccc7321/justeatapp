@@ -10,6 +10,11 @@
   }
 }
 
+.btn:hover {
+  background: var(--primary-700);
+  box-shadow: var(--shadow-3);
+}
+
 .loading {
   /* Add a red border */
   border: 2px solid rgb(70, 70, 70);
@@ -23,7 +28,7 @@
 
 main {
   width: 90vw;
-  max-width: 1120px;
+  max-width: 1680px;
   margin: 5rem auto;
 }
 
@@ -46,11 +51,13 @@ main {
 }
 
 .single-restaurant {
-  background: white;
+  background: rgb(255, 252, 219);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   transition: 0.3s ease-in-out all;
   position: relative;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 .single-restaurant:hover {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -59,13 +66,13 @@ main {
 
 .restaurants-rating {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   padding: 0.5rem;
   color: var(white);
   letter-spacing: 2px;
-  background: var(--justeat--02);
-  border-top-right-radius: 0.5rem;
+  background: rgb(179, 127, 13);
+  border-bottom-right-radius: 0.5rem;
 }
 
 .restaurant-info {
@@ -76,5 +83,5 @@ main {
   margin-bottom: 1rem;
   font-weight: 500;
   line-height: 1.5;
-  color: var(--justeat--03);
+  color: black;
 }
