@@ -1,15 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useGlobalContext } from '../Context';
 
 const url =
-  'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode/EC4M7RF';
+  'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
 
 function Display() {
+  const { searchTerm } = useGlobalContext();
+
   const response = useQuery({
-    queryKey: ['restaurants'],
+    queryKey: ['restaurants', searchTerm],
     queryFn: async () => {
-      const result = await axios.get(url);
+      const result = await axios.get(`${url}/${searchTerm}`);
 
       return result.data;
     },
