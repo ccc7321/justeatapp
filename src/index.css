@@ -32,7 +32,7 @@ main {
 }
 
 .title-underline {
-  background: var(--justeat--1);
+  background: var(--justeat--01);
   width: 7rem;
   height: 0.25rem;
   margin: 0 auto;

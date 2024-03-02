@@ -1,14 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useGlobalContext } from '../Context';
 import Review from './Review';
+import Pagination from './Pagination';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
 
 function Display() {
   const { searchTerm } = useGlobalContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [restaurantsPerPage] = useState(3);
+
+  // Get current restaurants
+  const indexOfLastRestaurant = currentPage * restaurantsPerPage;
+  const indexOfFirstRestaurant = indexOfLastRestaurant - restaurantsPerPage;
 
   const response = useQuery({
     queryKey: ['restaurants', searchTerm],
@@ -38,7 +45,11 @@ function Display() {
     );
   }
 
-  const results = response.data.restaurants.splice(0, 10);
+  const fiftyResults = response.data.restaurants.slice(0, 12);
+  const results = fiftyResults.slice(
+    indexOfFirstRestaurant,
+    indexOfLastRestaurant
+  );
   console.log(results);
   if (results.length < 1) {
     return (
@@ -47,6 +58,9 @@ function Display() {
       </section>
     );
   }
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <main className="restaurants">
       <section>
@@ -73,6 +87,11 @@ function Display() {
           );
         })}
       </section>
+      <Pagination
+        restaurantsPerPage={restaurantsPerPage}
+        totalRestaurants={12}
+        paginate={paginate}
+      />
     </main>
   );
 }

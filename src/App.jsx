@@ -6,20 +6,9 @@ import SearchForm from './components/SearchForm';
 
 function App() {
   const [isSearched, setIsSearched] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
 
-  if (isSearched) {
-    return (
-      <>
-        <div> Just Eat App</div>
-      </>
-    );
-  }
   return (
     <div>
-      <div> Just Eat App</div>
-
       <SearchForm />
       <Display />
     </div>
