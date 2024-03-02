@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useGlobalContext } from '../Context';
+import Review from './Review';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
@@ -19,29 +20,19 @@ function Display() {
   });
   console.log(response);
 
-  // const fetchRestaurants = async () => {
-  //   try {
-  //     const response = await fetch(url);
-  //     const restaurants = await response.json();
-  //     console.log(restaurants.restaurants.splice(0, 10));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchRestaurants();
-  // }, []);
-  // if(r)
   if (response.isLoading) {
-    return (
-      <section className="image-container">
-        <h4>Loading ...</h4>
-      </section>
-    );
+    return <div className="loading"></div>;
   }
   if (response.isError) {
     return (
-      <section className="image-container">
+      <section className="container">
+        <h4>There was an error</h4>
+      </section>
+    );
+  }
+  if (response.data === undefined) {
+    return (
+      <section className="container">
         <h4>There was an error</h4>
       </section>
     );
@@ -51,32 +42,38 @@ function Display() {
   console.log(results);
   if (results.length < 1) {
     return (
-      <section className="image-container">
+      <section className="container">
         <h4>No results found</h4>
       </section>
     );
   }
   return (
-    <section className="image-container">
-      {results.map((restaurant) => {
-        const { id, name, address, rating, cuisines } = restaurant;
-        return (
-          <section key={id}>
-            <h3>{name}</h3>
-            <h3>
-              Address:
-              {address.city},{address.firstLine},{address.postalCode}
-            </h3>
-            <h3>{rating.count} votes</h3>
-            <h3> {rating.starRating}</h3>
-            <h2>Type of Cuisine:</h2>
-            {cuisines.map((cusine) => {
-              return <h3>{cusine.name}</h3>;
-            })}
-          </section>
-        );
-      })}
-    </section>
+    <main className="restaurants">
+      <section>
+        {results.map((restaurant) => {
+          const { id, name, address, rating, cuisines } = restaurant;
+          return (
+            <section key={id} className="single-restaurant">
+              <section className="restaurants-rating">
+                <Review stars={rating.starRating} reviews={rating.count} />
+              </section>
+              <div className="restaurant-info">
+                <h3>{name}</h3>
+                <h3>
+                  Address:
+                  {address.city},{address.firstLine},{address.postalCode}
+                </h3>
+
+                <h3>Type of Cuisine:</h3>
+                {cuisines.map((cusine) => {
+                  return <h4>{cusine.name}</h4>;
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </section>
+    </main>
   );
 }
 export default Display;

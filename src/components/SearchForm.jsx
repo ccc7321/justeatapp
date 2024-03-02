@@ -12,7 +12,11 @@ function SearchForm() {
     setSearchTerm(searchValue);
   };
   return (
-    <section>
+    <main>
+      <section className="title">
+        <h2>Restaurants Near You</h2>
+        <div className="title-underline"></div>
+      </section>
       <h2>Input Postcode</h2>
       <form className="serach-form" onSubmit={handleSubmit}>
         <input type="text" name="search" placeholder="NW9 4GD" />
@@ -21,7 +25,7 @@ function SearchForm() {
           Search
         </button>
       </form>
-    </section>
+    </main>
   );
 }
 export default SearchForm;
