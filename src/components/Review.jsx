@@ -18,7 +18,7 @@ function Review({ stars, reviews }) {
       </span>
     );
   });
-  console.log(stars, reviews);
+
   return (
     <Wrapper className="restaurant-rating">
       <div className="stars">{tempStars}</div>

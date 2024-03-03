@@ -6,7 +6,7 @@ import Review from './Review';
 import Pagination from './Pagination';
 import styled from 'styled-components';
 import { Col } from 'react-bootstrap';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import Sort from './Sort';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
@@ -15,19 +15,29 @@ function Display() {
   const { searchTerm } = useGlobalContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [restaurantsPerPage] = useState(3);
+  const [sortedRestaurants, setSortedRestaurants] = useState([]);
+  const [defaultArray, setDefaultArray] = useState({});
 
   // Get current restaurants
   const indexOfLastRestaurant = currentPage * restaurantsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - restaurantsPerPage;
 
+  // Fetch from just eat api
   const response = useQuery({
     queryKey: ['restaurants', searchTerm],
     queryFn: async () => {
       const result = await axios.get(`${url}/${searchTerm}`);
+      setSortedRestaurants(result.data.restaurants.slice(0, 10));
       return result.data;
     },
   });
-  console.log(response);
+
+  // Run effect when default Array Changes
+  useEffect(() => {
+    if (defaultArray.length > 0) {
+      setSortedRestaurants(defaultArray);
+    }
+  }, [defaultArray]);
 
   if (response.isLoading) {
     return <div className="loading"></div>;
@@ -47,11 +57,12 @@ function Display() {
     );
   }
 
-  const fiftyResults = response.data.restaurants.slice(0, 10);
-  const results = fiftyResults.slice(
+  // setCurrentPage changes the results each time
+  const results = sortedRestaurants.slice(
     indexOfFirstRestaurant,
     indexOfLastRestaurant
   );
+
   console.log(results);
   if (results.length < 1) {
     return (
@@ -63,8 +74,18 @@ function Display() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handleSort = (sortedArray) => {
+    setSortedRestaurants(sortedArray);
+    setCurrentPage(1);
+  };
+
   return (
     <Wrapper className="restaurants">
+      <Sort
+        restaurants={sortedRestaurants}
+        setCurrentPage={setCurrentPage}
+        onSort={handleSort}
+      />
       <section className="row justify-content-center">
         {results.map((restaurant) => {
           const { id, name, address, rating, cuisines } = restaurant;
@@ -91,10 +112,9 @@ function Display() {
       </section>
       <Pagination
         restaurantsPerPage={restaurantsPerPage}
-        totalRestaurants={12}
+        totalRestaurants={10}
         paginate={paginate}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
       />
     </Wrapper>
   );
