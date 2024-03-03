@@ -5,6 +5,8 @@ import { useGlobalContext } from '../Context';
 import Review from './Review';
 import Pagination from './Pagination';
 import styled from 'styled-components';
+import { Col } from 'react-bootstrap';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
@@ -22,7 +24,6 @@ function Display() {
     queryKey: ['restaurants', searchTerm],
     queryFn: async () => {
       const result = await axios.get(`${url}/${searchTerm}`);
-
       return result.data;
     },
   });
@@ -46,7 +47,7 @@ function Display() {
     );
   }
 
-  const fiftyResults = response.data.restaurants.slice(0, 12);
+  const fiftyResults = response.data.restaurants.slice(0, 10);
   const results = fiftyResults.slice(
     indexOfFirstRestaurant,
     indexOfLastRestaurant
@@ -68,7 +69,7 @@ function Display() {
         {results.map((restaurant) => {
           const { id, name, address, rating, cuisines } = restaurant;
           return (
-            <section key={id} className="single-restaurant col-3">
+            <Col key={id} className="single-restaurant" xs={12} md={6} lg={3}>
               <section className="restaurants-rating">
                 <Review stars={rating.starRating} reviews={rating.count} />
               </section>
@@ -84,7 +85,7 @@ function Display() {
                   return <h4>{cusine.name}</h4>;
                 })}
               </div>
-            </section>
+            </Col>
           );
         })}
       </section>
@@ -92,6 +93,8 @@ function Display() {
         restaurantsPerPage={restaurantsPerPage}
         totalRestaurants={12}
         paginate={paginate}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </Wrapper>
   );
