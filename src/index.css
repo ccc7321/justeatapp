@@ -84,3 +84,16 @@ main {
   line-height: 1.5;
   color: black;
 }
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 100;
+  line-height: 1;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+}

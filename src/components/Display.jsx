@@ -5,8 +5,9 @@ import { useGlobalContext } from '../Context';
 import Review from './Review';
 import Pagination from './Pagination';
 import styled from 'styled-components';
-import { Col, Form, InputGroup } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import Sort from './Sort';
+import { IoFastFoodSharp, IoHome, IoRestaurant } from 'react-icons/io5';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
@@ -29,6 +30,7 @@ function Display() {
     queryFn: async () => {
       const result = await axios.get(`${url}/${searchTerm}`);
       setDefaultArray(result.data.restaurants.slice(0, 10));
+      setSortedRestaurants(result.data.restaurants.slice(0, 10));
       // setSortedRestaurants(result.data.restaurants.slice(0, 10));
       return result.data;
     },
@@ -79,6 +81,13 @@ function Display() {
   if (results.length < 1) {
     return (
       <section className="container">
+        <Button
+          onClick={() => {
+            setSortedRestaurants(defaultArray);
+          }}
+        >
+          Reset Filter
+        </Button>
         <h4>No results found</h4>
       </section>
     );
@@ -103,6 +112,7 @@ function Display() {
           ></Form.Control>
         </InputGroup>
       </Form>
+
       <Sort
         restaurants={sortedRestaurants}
         setCurrentPage={setCurrentPage}
@@ -117,14 +127,20 @@ function Display() {
                 <Review stars={rating.starRating} reviews={rating.count} />
               </section>
               <div className="restaurant-info">
-                <h3>{name}</h3>
-                <h3>
+                <div className="name-wrapper">
+                  <h1>
+                    {<IoRestaurant />}
+                    {name}
+                  </h1>
+                </div>
+                <h2>
+                  {<IoHome />}
                   Address:
                   {address.city},{address.firstLine},{address.postalCode}
-                </h3>
+                </h2>
 
-                <h3>Type of Cuisine:</h3>
-                {cuisines.map((cusine) => {
+                <h2>{<IoFastFoodSharp />}Type of Cuisine:</h2>
+                {cuisines.slice(0, 3).map((cusine) => {
                   return <h4>{cusine.name}</h4>;
                 })}
               </div>
@@ -145,6 +161,14 @@ function Display() {
 const Wrapper = styled.main`
   main {
     background-color: rgb(238, 237, 234);
+  }
+  .single-restaurant {
+    height: 500px;
+  }
+
+  h1 {
+    font-weight: 300;
+    color: rgb(190, 83, 0);
   }
 `;
 export default Display;
