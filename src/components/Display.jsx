@@ -5,7 +5,7 @@ import { useGlobalContext } from '../Context';
 import Review from './Review';
 import Pagination from './Pagination';
 import styled from 'styled-components';
-import { Col } from 'react-bootstrap';
+import { Col, Form, InputGroup } from 'react-bootstrap';
 import Sort from './Sort';
 
 const url =
@@ -16,7 +16,8 @@ function Display() {
   const [currentPage, setCurrentPage] = useState(1);
   const [restaurantsPerPage] = useState(3);
   const [sortedRestaurants, setSortedRestaurants] = useState([]);
-  const [defaultArray, setDefaultArray] = useState({});
+  const [defaultArray, setDefaultArray] = useState([]);
+  const [search, setSearch] = useState('');
 
   // Get current restaurants
   const indexOfLastRestaurant = currentPage * restaurantsPerPage;
@@ -27,7 +28,8 @@ function Display() {
     queryKey: ['restaurants', searchTerm],
     queryFn: async () => {
       const result = await axios.get(`${url}/${searchTerm}`);
-      setSortedRestaurants(result.data.restaurants.slice(0, 10));
+      setDefaultArray(result.data.restaurants.slice(0, 10));
+      // setSortedRestaurants(result.data.restaurants.slice(0, 10));
       return result.data;
     },
   });
@@ -38,6 +40,16 @@ function Display() {
       setSortedRestaurants(defaultArray);
     }
   }, [defaultArray]);
+
+  useEffect(() => {
+    const filteredRestaurants = defaultArray.filter((restaurant) => {
+      return search === ''
+        ? true
+        : restaurant.name.toLowerCase().includes(search.toLowerCase());
+    });
+
+    setSortedRestaurants(filteredRestaurants);
+  }, [search, defaultArray]);
 
   if (response.isLoading) {
     return <div className="loading"></div>;
@@ -81,6 +93,16 @@ function Display() {
 
   return (
     <Wrapper className="restaurants">
+      <Form className="searchBarForm row justify-content-center">
+        <InputGroup className="my-3 restaurantSearch">
+          <Form.Control
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            placeholder="Search Restaurants"
+          ></Form.Control>
+        </InputGroup>
+      </Form>
       <Sort
         restaurants={sortedRestaurants}
         setCurrentPage={setCurrentPage}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useGlobalContext } from '../Context';
 import styled from 'styled-components';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 
 function SearchForm() {
   const { setSearchTerm } = useGlobalContext();
@@ -65,6 +65,12 @@ const Wrapper = styled.main`
 
   .search-form .btn {
     margin-left: 1rem;
+  }
+
+  .restaurantSearch {
+    width: 30rem;
+    margin-bottom: 1rem;
+    text-align: center;
   }
 `;
 export default SearchForm;
