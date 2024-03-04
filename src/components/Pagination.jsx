@@ -46,11 +46,11 @@ function Pagination({
                 }`}
               >
                 <a
-                  href="!#"
                   className="page-link"
                   onClick={() => {
                     paginate(number);
                   }}
+                  style={{ cursor: 'pointer' }}
                 >
                   {number}
                 </a>
