@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import Sort from './Sort';
 import { IoFastFoodSharp, IoHome, IoRestaurant } from 'react-icons/io5';
+import RestaurantsPerPage from './RestaurantsPerPage';
 
 const url =
   'https://uk.api.just-eat.io/discovery/uk/restaurants/enriched/bypostcode';
@@ -15,7 +16,7 @@ const url =
 function Display() {
   const { searchTerm } = useGlobalContext();
   const [currentPage, setCurrentPage] = useState(1);
-  const [restaurantsPerPage] = useState(3);
+  const [restaurantsPerPage, setRestaurantsPerPage] = useState(3);
   const [sortedRestaurants, setSortedRestaurants] = useState([]);
   const [defaultArray, setDefaultArray] = useState([]);
   const [search, setSearch] = useState('');
@@ -112,6 +113,7 @@ function Display() {
           ></Form.Control>
         </InputGroup>
       </Form>
+      <RestaurantsPerPage setRestaurantsPerPage={setRestaurantsPerPage} />
 
       <Sort
         restaurants={sortedRestaurants}
@@ -152,6 +154,7 @@ function Display() {
         restaurantsPerPage={restaurantsPerPage}
         totalRestaurants={10}
         paginate={paginate}
+        setRestaurantsPerPage={setRestaurantsPerPage}
         currentPage={currentPage}
       />
     </Wrapper>
@@ -169,6 +172,14 @@ const Wrapper = styled.main`
   h1 {
     font-weight: 300;
     color: rgb(190, 83, 0);
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1rem;
   }
 `;
 export default Display;

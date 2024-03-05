@@ -1,3 +1,4 @@
+import { Button } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import styled from 'styled-components';
 
@@ -5,7 +6,7 @@ function Pagination({
   restaurantsPerPage,
   totalRestaurants,
   paginate,
-  setCurrentPage,
+  setRestaurantsPerPage,
   currentPage,
 }) {
   const pageNumbers = [];
@@ -21,7 +22,6 @@ function Pagination({
     <Wrappers>
       <nav>
         <ul className="pagination">
-          {/* Previous Page Button */}
           <li className="page-item">
             <button
               className="page-link"
@@ -36,7 +36,6 @@ function Pagination({
             </button>
           </li>
 
-          {/* Set up page numbers */}
           {pageNumbers.map((number) => {
             return (
               <li
@@ -57,7 +56,7 @@ function Pagination({
               </li>
             );
           })}
-          {/* Next Page Button */}
+
           <li className="page-item">
             <button
               className="page-link"
